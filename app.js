@@ -16,10 +16,6 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(passport.initialize());
 app.use("/", rtsIndex);
-app.use(express.static(path.join(__dirname, "public")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/index.html"));
-});
 // error handler
 app.use((err, req, res, next) => {
   // handling nicely mongodb validation errors
