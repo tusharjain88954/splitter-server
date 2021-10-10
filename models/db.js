@@ -14,3 +14,4 @@ mongoose
   });
 
 require("./user.model");
+require("./group.model");

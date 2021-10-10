@@ -13,12 +13,14 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: "Email can't be empty",
     unique: true,
+    index: true,
   },
   password: {
     type: String,
     required: "Password can't be empty",
     minlength: [4, "Password must be atleast 4 character long"],
   },
+  groupIds: { type: [mongoose.Schema.Types.ObjectId], ref: "Group" },
   saltSecret: String,
 });
 
@@ -48,7 +50,7 @@ userSchema.methods.verifyPassword = function (password) {
 userSchema.methods.generateJwt = function () {
   // here we passed payload + secret code to generate jwt
   return jwt.sign({ _id: this._id }, "SECRET#123", {
-    expiresIn: "2m",
+    expiresIn: "20m",
   });
 };
 

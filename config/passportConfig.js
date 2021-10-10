@@ -5,8 +5,8 @@ const mongoose = require("mongoose");
 var User = mongoose.model("User");
 
 passport.use(
-  new localStrategy({ usernameField: "email" }, (username, password, done) => {
-    User.findOne({ email: username }, (err, user) => {
+  new localStrategy({ usernameField: "email" }, async(username, password, done) => {
+    await User.findOne({ email: username }, (err, user) => {
       if (err) return done(err);
       // unknown user
       else if (!user)
