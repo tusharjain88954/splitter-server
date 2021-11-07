@@ -16,7 +16,7 @@ router.patch(
 router.get("/user", jwtHelper.verifyJwtToken, ctrlUser.getGroupList); // get list if groups in which a user is joined
 router.patch("/user", jwtHelper.verifyJwtToken, ctrlUser.addGroup); // add a group into user doc
 router.delete("/user", jwtHelper.verifyJwtToken, ctrlUser.removeGroup); // remove a group from a user doc
-router.get("/group", jwtHelper.verifyJwtToken, ctrlGroup.getGroup); // get a group info
+router.get("/group", jwtHelper.verifyJwtToken, ctrlGroup.getGroup); // get a group name and all user names
 router.post("/group", jwtHelper.verifyJwtToken, ctrlGroup.createGroup);
 router.patch("/group", jwtHelper.verifyJwtToken, ctrlGroup.addUser); // add a user into a group doc
 router.delete("/group", jwtHelper.verifyJwtToken, ctrlGroup.removeUser); // remove a user from a group doc

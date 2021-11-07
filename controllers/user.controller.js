@@ -133,14 +133,19 @@ module.exports.getGroupList = async (req, res, next) => {
         saltSecret: 0,
         __v: 0,
         _id: 0,
+        "groups._id": 0,
+        "groups.__v": 0,
+        "groups.total_transactions": 0,
+        "groups.expanses": 0,
+        "groups.userIds": 0,
       },
     },
   ]);
-  var result = groupList[0].groups.map(function (el) {
-    var o = Object.assign({}, el);
-    return o.name;
-  });
-  return res.status(200).json(result);
+  // var result = groupList[0].groups.map(function (el) {
+  //   var o = Object.assign({}, el);
+  //   return o.name;
+  // });
+  return res.status(200).json(groupList);
 };
 
 module.exports.addGroup = async (req, res, next) => {
