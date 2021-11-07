@@ -6,7 +6,7 @@ const _ = require("lodash");
 const Group = mongoose.model("Group");
 
 module.exports.getGroup = async (req, res, next) => {
-  const group = await Group.findOne({ name: req.body.name });
+  const group = await Group.findOne({ name: req.query.name });
   if (group) res.status(200).json(group);
   else
     res.status(404).json({
@@ -17,7 +17,7 @@ module.exports.getGroup = async (req, res, next) => {
 
 module.exports.createGroup = async (req, res, next) => {
   var group = new Group();
-  group.name = req.body.name;
+  group.name = req.query.name;
   group.save((err, doc) => {
     if (!err) res.send(doc);
     else {
@@ -31,7 +31,7 @@ module.exports.createGroup = async (req, res, next) => {
 module.exports.addUser = async (req, res, next) => {
   // email exists check
   const addUser = await Group.updateOne(
-    { name: req.body.name },
+    { name: req.query.name },
     { $addToSet: { userIds: req._id } }
   );
   console.log(addUser);
@@ -42,5 +42,22 @@ module.exports.addUser = async (req, res, next) => {
     });
   } else {
     res.status(202).send(["Added Successfully"]);
+  }
+};
+
+module.exports.removeUser = async (req, res, next) => {
+  // email exists check
+  const removeUser = await Group.updateOne(
+    { name: req.query.name },
+    { $pull: { userIds: req._id } }
+  );
+  console.log(removeUser);
+  if (removeUser.n == 0) {
+    res.status(404).json({
+      status: false,
+      message: "Specified group name record not found.",
+    });
+  } else {
+    res.status(202).send(["removed Successfully"]);
   }
 };
