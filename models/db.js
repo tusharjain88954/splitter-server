@@ -15,3 +15,4 @@ mongoose
 
 require("./user.model");
 require("./group.model");
+require("./user_group")

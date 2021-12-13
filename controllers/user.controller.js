@@ -7,6 +7,7 @@ const _ = require("lodash");
 
 const User = mongoose.model("User");
 const Group = mongoose.model("Group");
+const user_group = mongoose.model("user_group");
 
 module.exports.register = async (req, res, next) => {
   var user = new User();
@@ -114,43 +115,45 @@ module.exports.updateUserProfile = async (req, res, next) => {
 };
 
 module.exports.getGroupList = async (req, res, next) => {
-  const groupList = await User.aggregate([
-    { $match: { _id: ObjectId(req._id) } },
+  const groupList = await user_group.aggregate([
+    { $match: { userId: ObjectId(req._id) } },
     {
       $lookup: {
         from: "groups",
-        localField: "groupIds",
+        localField: "groupId",
         foreignField: "_id",
-        as: "groups",
+        as: "group",
       },
     },
     {
       $project: {
-        password: 0,
-        email: 0,
-        fullName: 0,
-        groupIds: 0,
-        saltSecret: 0,
+        groupId: 0,
+        userId: 0,
         __v: 0,
         _id: 0,
         "groups._id": 0,
         "groups.__v": 0,
         "groups.total_transactions": 0,
         "groups.expanses": 0,
-        "groups.userIds": 0,
       },
     },
   ]);
-  // var result = groupList[0].groups.map(function (el) {
-  //   var o = Object.assign({}, el);
-  //   return o.name;
-  // });
+
+
+
   return res.status(200).json(groupList);
 };
 
-module.exports.addGroup = async (req, res, next) => {
-  const group = await Group.findOne({ name: req.query.name });
 
+
+
+/*
+
+  check code of all below functions
+
+*/
+module.exports.addGroup = async (req, res, next) => {
+  const group = await Group.findOne({ name: req.body.name });
   if (group) {
     const addGroup = await User.updateOne(
       { _id: req._id },
@@ -162,7 +165,7 @@ module.exports.addGroup = async (req, res, next) => {
         message: "Specified User record not found.",
       });
     } else {
-      res.status(202).send(["Added Successfully"]);
+      res.status(202).json({ message: "Successfully Added" });
     }
   } else {
     res.status(404).json({

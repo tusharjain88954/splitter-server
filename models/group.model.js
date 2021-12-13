@@ -8,13 +8,16 @@ var userSchema = new mongoose.Schema({
     required: "name can't be empty",
   },
 
-  userIds: { type: [mongoose.Schema.Types.ObjectId], ref: "User" },
   total_transactions: {
     type: [String],
   },
   expanses: {
     type: [String],
   },
+  total_persons: {
+    type: mongoose.Schema.Types.Number,
+    default: 1
+  }
 });
 
 // Events
