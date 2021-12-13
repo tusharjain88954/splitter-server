@@ -49,7 +49,7 @@ userSchema.methods.verifyPassword = function (password) {
 userSchema.methods.generateJwt = function () {
   // here we passed payload + secret code to generate jwt
   return jwt.sign({ _id: this._id }, "SECRET#123", {
-    expiresIn: "20m",
+    expiresIn: "2000m",
   });
 };
 

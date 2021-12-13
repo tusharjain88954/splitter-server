@@ -13,21 +13,31 @@ const user_group = mongoose.model("user_group");
 module.exports.createUserGroup = async (req, res, next) => {
     const group = await Group.findOne({ name: req.body.name });
     if (group) {
-        await Group.updateOne({ _id: group._id }, { $inc: { "total_persons": 1 } });
-        let User_group = new user_group();
-        User_group.groupId = group._id;
-        User_group.userId = req._id;
-        User_group.save((err, doc) => {
-            if (!err) {
-                res.send(doc);
-            }
-            else {
-                res.status(404).json({
-                    status: false,
-                    error: "Something went wrong. Contact Admin",
-                });
-            }
-        });
+
+        const alreadyExists = await user_group.findOne({ groupId: group._id, userId: req._id });
+        if (alreadyExists) {
+            res.status(400).json({
+                status: false,
+                error: "Already in the group",
+            });
+        }
+        else {
+            await Group.updateOne({ _id: group._id }, { $inc: { "total_persons": 1 } });
+            let User_group = new user_group();
+            User_group.groupId = group._id;
+            User_group.userId = req._id;
+            User_group.save((err, doc) => {
+                if (!err) {
+                    res.send(doc);
+                }
+                else {
+                    res.status(404).json({
+                        status: false,
+                        error: "Something went wrong. Contact Admin",
+                    });
+                }
+            });
+        }
     } else {
         res.status(404).json({
             status: false,
