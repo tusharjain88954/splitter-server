@@ -131,16 +131,12 @@ module.exports.getGroupList = async (req, res, next) => {
         userId: 0,
         __v: 0,
         _id: 0,
-        "groups._id": 0,
         "groups.__v": 0,
         "groups.total_transactions": 0,
         "groups.expanses": 0,
       },
     },
   ]);
-
-
-
   return res.status(200).json(groupList);
 };
 

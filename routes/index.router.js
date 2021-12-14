@@ -4,24 +4,24 @@ const router = express.Router();
 const ctrlUser = require("../controllers/user.controller");
 const ctrlGroup = require("../controllers/group.controller");
 const ctrlUserGroup = require("../controllers/user_group.controller")
-const jwtHelper = require("../config/jwtHelper");
+const auth = require("../config/authenticate");
 
 router.post("/register", ctrlUser.register); // signup
 router.post("/authenticate", ctrlUser.authenticate); // signin
-router.get("/userProfile", jwtHelper.verifyJwtToken, ctrlUser.userProfile); // userinfo
+router.get("/userProfile", auth.verifyJwtToken, ctrlUser.userProfile); // userinfo
 router.patch(
   "/userProfile",
-  jwtHelper.verifyJwtToken,
+  auth.verifyJwtToken,
   ctrlUser.updateUserProfile
 ); // update user info
-router.get("/user", jwtHelper.verifyJwtToken, ctrlUser.getGroupList); // get list if groups in which a user is joined
-router.patch("/user", jwtHelper.verifyJwtToken, ctrlUser.addGroup); // add a group into user doc
-router.delete("/user", jwtHelper.verifyJwtToken, ctrlUser.removeGroup); // remove a group from a user doc
-router.get("/group", jwtHelper.verifyJwtToken, ctrlGroup.getGroup); // get a group name and all user names
-router.post("/group", jwtHelper.verifyJwtToken, ctrlGroup.createGroup);
-router.patch("/group", jwtHelper.verifyJwtToken, ctrlGroup.updateGroupInfo); // add a user into a group doc
-router.delete("/group", jwtHelper.verifyJwtToken, ctrlGroup.removeUser); // remove a user from a group doc
-router.post("/user_group", jwtHelper.verifyJwtToken, ctrlUserGroup.createUserGroup);
+router.get("/user", auth.verifyJwtToken, ctrlUser.getGroupList); // get list if groups in which a user is joined
+router.patch("/user", auth.verifyJwtToken, ctrlUser.addGroup); // add a group into user doc
+router.delete("/user", auth.verifyJwtToken, ctrlUser.removeGroup); // remove a group from a user doc
+router.get("/group/:id", auth.verifyJwtToken, auth.verifyGroup, ctrlGroup.getGroup); // get a group name and all user names
+router.post("/group", auth.verifyJwtToken, ctrlGroup.createGroup);
+router.patch("/group", auth.verifyJwtToken, ctrlGroup.updateGroupInfo); // add a user into a group doc
+router.delete("/group", auth.verifyJwtToken, ctrlGroup.removeUser); // remove a user from a group doc
+router.post("/user_group", auth.verifyJwtToken, ctrlUserGroup.createUserGroup);
 /*
 make unecessary request as method not allowded!
 */

@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const passport = require("passport");
+const ObjectId = mongoose.Types.ObjectId;
+
 // lodash is used for extracting key value pairs from object
 const _ = require("lodash");
 
@@ -111,40 +113,15 @@ module.exports.removeUser = async (req, res, next) => {
 
 
 module.exports.getGroup = async (req, res, next) => {
-  const group = await Group.aggregate([
-    { $match: { name: req.query.name } },
-    {
-      $addFields: {
-        totalUsers: { $size: "$userIds" },
-      },
-    },
-    {
-      $lookup: {
-        from: "users",
-        localField: "userIds",
-        foreignField: "_id",
-        as: "users",
-      },
-    },
-    {
-      $project: {
-        total_transactions: 0,
-        expanses: 0,
-        __v: 0,
-        _id: 0,
-        "users._id": 0,
-        "users.email": 0,
-        "users.password": 0,
-        "users.saltSecret": 0,
-        "users.__v": 0,
-        "users.groupIds": 0,
-      },
-    },
-  ]);
-  if (group) res.status(200).json(group);
-  else
+  const group = await Group.findOne({ _id: ObjectId(req.params.id) });
+  if (group) {
+    console.log(group);
+    res.status(200).json(group);
+  }
+  else {
     res.status(404).json({
       status: false,
-      message: "Specified group name record not found.",
+      error: "Specified group name record not found.",
     });
+  }
 };
