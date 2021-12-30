@@ -21,6 +21,7 @@ router.get("/group/:id", auth.verifyJwtToken, auth.verifyGroup, ctrlGroup.getGro
 router.post("/group", auth.verifyJwtToken, ctrlGroup.createGroup);
 router.patch("/group", auth.verifyJwtToken, ctrlGroup.updateGroupInfo); // add a user into a group doc
 router.delete("/group", auth.verifyJwtToken, ctrlGroup.removeUser); // remove a user from a group doc
+router.get("/user_group/:id", auth.verifyJwtToken, auth.verifyGroup, ctrlUserGroup.getAllUsers); // get all users of a particular group
 router.post("/user_group", auth.verifyJwtToken, ctrlUserGroup.createUserGroup);
 /*
 make unecessary request as method not allowded!

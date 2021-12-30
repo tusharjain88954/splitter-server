@@ -45,3 +45,27 @@ module.exports.createUserGroup = async (req, res, next) => {
         });
     }
 };
+module.exports.getAllUsers = async (req, res, next) => {
+    const group = await Group.findOne({ _id: ObjectId(req.params.id) });
+    if (group) {
+        const allUserGroups = await user_group.find({ groupId: ObjectId(req.params.id) });
+        // send user name and their ids in json format
+        let allUserIds = [];
+        for (let i = 0; i < allUserGroups.length; i++) {
+            allUserIds.push(allUserGroups[i].userId);
+        }
+        const allUsers = await User.find({ _id: { $in: allUserIds } }, { email: 0, password: 0, saltSecret: 0, __v: 0 });
+        let result = [];
+        for (let i = 0; i < allUsers.length; i++) {
+            if (allUsers[i]._id == req._id) { continue; }
+            result.push(allUsers[i]);
+        }
+        console.log(result);
+        res.status(200).send(result);
+    } else {
+        res.status(404).json({
+            status: false,
+            error: "Specified group name record not found.",
+        });
+    }
+};

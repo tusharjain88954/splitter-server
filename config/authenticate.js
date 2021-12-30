@@ -31,6 +31,7 @@ module.exports.verifyGroup = async (req, res, next) => {
     return res.status(403).json({ auth: false, error: "No Id found" });
   else {
     const userGroup = await user_group.findOne({ groupId: req.params.id, userId: req._id });
+    console.log(userGroup)
     if (userGroup) next();
     else {
       return res

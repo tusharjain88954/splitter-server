@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-var userSchema = new mongoose.Schema({
+var groupSchema = new mongoose.Schema({
   name: {
     type: String,
     index: true,
@@ -8,10 +8,7 @@ var userSchema = new mongoose.Schema({
     required: "name can't be empty",
   },
 
-  total_transactions: {
-    type: [String],
-  },
-  expanses: {
+  allTransaction: {
     type: [String],
   },
   total_persons: {
@@ -24,4 +21,4 @@ var userSchema = new mongoose.Schema({
 
 // Methods
 
-mongoose.model("Group", userSchema);
+mongoose.model("Group", groupSchema);
