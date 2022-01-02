@@ -7,7 +7,7 @@ const _ = require("lodash");
 
 const User = mongoose.model("User");
 const Group = mongoose.model("Group");
-const user_group = mongoose.model("user_group");
+const user_group = mongoose.model("UserGroup");
 
 
 module.exports.createUserGroup = async (req, res, next) => {
@@ -46,9 +46,10 @@ module.exports.createUserGroup = async (req, res, next) => {
     }
 };
 module.exports.getAllUsers = async (req, res, next) => {
-    const group = await Group.findOne({ _id: ObjectId(req.params.id) });
+    console.log("iddhar")
+    const group = await Group.findOne({ _id: ObjectId(req.query.groupId) });
     if (group) {
-        const allUserGroups = await user_group.find({ groupId: ObjectId(req.params.id) });
+        const allUserGroups = await user_group.find({ groupId: ObjectId(req.query.groupId) });
         // send user name and their ids in json format
         let allUserIds = [];
         for (let i = 0; i < allUserGroups.length; i++) {

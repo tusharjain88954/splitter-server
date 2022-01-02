@@ -15,4 +15,5 @@ mongoose
 
 require("./user.model");
 require("./group.model");
-require("./user_group")
+require("./user_group.model")
+require("./transaction.model")

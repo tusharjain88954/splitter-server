@@ -20,4 +20,4 @@ transactionSchema.index(
 
 // Methods
 
-mongoose.model("Group", transactionSchema);
+mongoose.model("Transaction", transactionSchema);

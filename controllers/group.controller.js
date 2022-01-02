@@ -6,7 +6,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const _ = require("lodash");
 
 const Group = mongoose.model("Group");
-const user_group = mongoose.model("user_group");
+const user_group = mongoose.model("UserGroup");
 
 
 module.exports.createGroup = async (req, res, next) => {
@@ -125,3 +125,6 @@ module.exports.getGroup = async (req, res, next) => {
     });
   }
 };
+
+
+

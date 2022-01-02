@@ -7,7 +7,7 @@ const _ = require("lodash");
 
 const User = mongoose.model("User");
 const Group = mongoose.model("Group");
-const user_group = mongoose.model("user_group");
+const user_group = mongoose.model("UserGroup");
 
 module.exports.register = async (req, res, next) => {
   var user = new User();

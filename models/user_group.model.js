@@ -18,4 +18,4 @@ userGroupSchema.index(
 
 // Methods
 
-mongoose.model("user_group", userGroupSchema);
+mongoose.model("UserGroup", userGroupSchema);
